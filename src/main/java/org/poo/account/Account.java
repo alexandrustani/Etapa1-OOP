@@ -1,73 +1,82 @@
 package org.poo.account;
 
 import org.poo.card.Card;
-import org.poo.utils.Utils;
 
 import java.util.ArrayList;
 
-public class Account {
-    private static final double DEFAULT_BALANCE = 0.0;
-    private String accountType;
-    private double balance;
-    private double interestRate;
-    private String currency;
-    private String IBAN;
-    private ArrayList<Card> cards;
+/**
+ * Interface that represents an account.
+ */
+public interface Account {
+    /**
+     * Gets the minimum balance.
+     * @return the minimum balance.
+     */
+    double getMinimumBalance();
 
-    public Account(final String accountType, final double interestRate, final String currency) {
-        this.setAccountType(accountType);
-        this.setBalance(DEFAULT_BALANCE);
-        this.setInterestRate(interestRate);
-        this.setCurrency(currency);
-        this.setIBAN(Utils.generateIBAN());
-        this.cards = new ArrayList<>();
-    }
+    /**
+     * Sets the minimum balance.
+     * @param minimumBalance the minimum balance.
+     */
+    void setMinimumBalance(double minimumBalance);
 
-    public String getAccountType() {
-        return accountType;
-    }
+    /**
+     * Gets the account type.
+     * @return the account type.
+     */
+    String getAccountType();
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+    /**
+     * Sets the account type.
+     * @param accountType the account type.
+     */
+    void setAccountType(String accountType);
 
-    public double getBalance() {
-        return balance;
-    }
+    /**
+     * Gets the balance.
+     * @return the balance.
+     */
+    double getBalance();
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
+    /**
+     * Sets the balance.
+     * @param balance the balance.
+     */
+    void setBalance(double balance);
 
-    public double getInterestRate() {
-        return interestRate;
-    }
+    /**
+     * Gets the currency.
+     * @return the currency.
+     */
+    String getCurrency();
 
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
-    }
+    /**
+     * Sets the currency.
+     * @param currency the currency.
+     */
+    void setCurrency(String currency);
 
-    public String getCurrency() {
-        return currency;
-    }
+    /**
+     * Gets the IBAN.
+     * @return the IBAN.
+     */
+    String getAccountIBAN();
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
+    /**
+     * Sets the IBAN.
+     * @param newIBAN the new IBAN.
+     */
+    void setAccountIBAN(String newIBAN);
 
-    public String getIBAN() {
-        return IBAN;
-    }
+    /**
+     * Gets the cards.
+     * @return the cards.
+     */
+    ArrayList<Card> getCards();
 
-    public void setIBAN(String IBAN) {
-        this.IBAN = IBAN;
-    }
-
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(ArrayList<Card> cards) {
-        this.cards = cards;
-    }
+    /**
+     * Sets the cards.
+     * @param newCards the cards.
+     */
+    void setCards(ArrayList<Card> newCards);
 }

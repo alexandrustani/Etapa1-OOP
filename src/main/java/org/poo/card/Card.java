@@ -1,38 +1,42 @@
 package org.poo.card;
 
-import org.poo.utils.Utils;
-public class Card {
-    private String cardNumber;
-    private String status;
-    private String cardType;
+/**
+ * Interface that represents a card.
+ */
+public interface Card {
+    /**
+     * Gets the card number.
+     * @return the card number.
+     */
+    String getCardNumber();
 
-    public Card(String status, String cardType) {
-        this.setCardNumber(Utils.generateCardNumber());
-        this.setStatus(status);
-        this.setCardType(cardType);
-    }
+    /**
+     * Gets the card status.
+     * @return the card status.
+     */
+    String getCardStatus();
 
-    public String getCardNumber() {
-        return cardNumber;
-    }
+    /**
+     * Sets the card number.
+     * @param cardNumber the card number.
+     */
+    void setCardNumber(String cardNumber);
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+    /**
+     * Sets the card status.
+     * @param cardStatus the card status.
+     */
+    void setCardStatus(String cardStatus);
 
-    public String getStatus() {
-        return status;
-    }
+    /**
+     * Gets the card type.
+     * @return the card type.
+     */
+    String getCardType();
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
-    }
+    /**
+     * Sets the card type.
+     * @param cardType the card type.
+     */
+    void setCardType(String cardType);
 }

@@ -1,53 +1,64 @@
 package org.poo.user;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Getter;
+import lombok.Setter;
 import org.poo.account.Account;
 import java.util.ArrayList;
 
+/**
+ * User class
+ */
+@Getter
+@Setter
 public class User {
     private String firstName;
     private String lastName;
     private String email;
     private ArrayList<Account> accounts;
+    private ArrayList<ObjectNode> transactions;
 
-    public User() {
-    }
-
-    public User(String firstName, String lastName, String email) {
+    /**
+     * Constructor for User
+     * @param firstName for the user
+     * @param lastName for the user
+     * @param email for the user
+     */
+    public User(final String firstName, final String lastName, final String email) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
-        this.accounts = new ArrayList<>();
+        this.setAccounts(new ArrayList<>());
+        this.setTransactions(new ArrayList<>());
     }
 
-    public String getFirstName() {
-        return firstName;
+    /**
+     * Add account to user
+     * @param account to add
+     */
+    public void addAccount(final Account account) {
+        this.getAccounts().add(account);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    /**
+     * Add transaction to user
+     * @param transaction to add
+     */
+    public void addTransaction(final ObjectNode transaction) {
+        this.getTransactions().add(transaction);
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public ArrayList<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(ArrayList<Account> accounts) {
-        this.accounts = accounts;
+    /**
+     * Get account by IBAN
+     * @param accountIBAN to search
+     * @return account
+     */
+    public Account getAccountByIBAN(final String accountIBAN) {
+        for (Account account : this.getAccounts()) {
+            if (account.getAccountIBAN().equals(accountIBAN)) {
+                return account;
+            }
+        }
+        return null;
     }
 }
