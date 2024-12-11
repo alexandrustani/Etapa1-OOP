@@ -1,5 +1,6 @@
 package org.poo.account;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.card.Card;
 
 import java.util.ArrayList;
@@ -79,4 +80,46 @@ public interface Account {
      * @param newCards the cards.
      */
     void setCards(ArrayList<Card> newCards);
+
+    /**
+     * Add transaction to account
+     * @param transaction to add
+     */
+    void addTransaction(ObjectNode transaction);
+
+    /**
+     * Set transactions
+     * @param newTransactions to set
+     */
+    void setTransactions(ArrayList<ObjectNode> newTransactions);
+
+    /**
+     * Get transactions
+     * @return transactions
+     */
+    ArrayList<ObjectNode> getTransactions();
+
+    /**
+     * Add amount to balance
+     * @param amount to add
+     */
+    void addAmountToBalance(double amount);
+
+    /**
+     * Subtract amount from balance
+     * @param amount to subtract
+     */
+    void subtractAmountFromBalance(double amount);
+
+    /**
+     * Set the alias of the account
+     * @param newAlias the alias
+     */
+    void setAlias(String newAlias);
+
+    /**
+     * Get the alias of the account
+     * @return the alias
+     */
+    String getAlias();
 }

@@ -1,10 +1,12 @@
 package org.poo.account;
 
+import lombok.Data;
 import org.poo.fileio.CommandInput;
 
 /**
  * Factory class to create an account.
  */
+@Data
 public final class FactoryOfAccount {
     /**
      * Private constructor to avoid instantiation.

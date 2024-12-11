@@ -1,4 +1,4 @@
-package org.poo.commands;
+package org.poo.commands.accountRelatedCommands;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -9,6 +9,7 @@ import org.poo.fileio.CommandInput;
 
 import java.util.ArrayList;
 import org.poo.user.User;
+import org.poo.utils.Utils;
 
 /**
  * Delete account command class.
@@ -22,6 +23,12 @@ public final class DeleteAccount {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Execute the deleteAccount command.
+     * @param command - the command to be executed
+     * @param users - the list of users
+     * @param output - the output array
+     */
     public static void execute(final CommandInput command, final ArrayList<User> users,
                                 final ArrayNode output) {
         User neededUser = null;
@@ -46,12 +53,26 @@ public final class DeleteAccount {
 
         commandNode.put("command", "deleteAccount");
 
-        if (neededAccount.getBalance() == 0) {
+        if (neededAccount.getBalance() == Utils.INITIAL_BALANCE) {
             neededUser.getAccounts().remove(neededAccount);
             ObjectNode success = mapper.createObjectNode();
             success.put("success", "Account deleted");
             success.put("timestamp", command.getTimestamp());
             commandNode.set("output", success);
+        } else {
+            ObjectNode error = mapper.createObjectNode();
+            error.put("error",
+                    "Account couldn't be deleted - see org.poo.transactions for details");
+            error.put("timestamp", command.getTimestamp());
+            commandNode.set("output", error);
+
+            ObjectNode transaction = mapper.createObjectNode();
+            transaction.put("timestamp", command.getTimestamp());
+            transaction.put("description",
+                         "Account couldn't be deleted - there are funds remaining");
+
+            neededUser.addTransaction(transaction);
+            neededAccount.addTransaction(transaction);
         }
 
         commandNode.put("timestamp", command.getTimestamp());

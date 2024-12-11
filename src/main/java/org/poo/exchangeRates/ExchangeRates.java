@@ -1,7 +1,6 @@
 package org.poo.exchangeRates;
 
 import lombok.Data;
-import lombok.Getter;
 import org.poo.fileio.ObjectInput;
 
 import java.util.HashMap;
@@ -22,7 +21,6 @@ public final class ExchangeRates {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    @Getter
     private static Map<String, Map<String, Double>> exchangeRates = new HashMap<>();
 
     /**
@@ -40,10 +38,13 @@ public final class ExchangeRates {
 
             exchangeRates
                     .computeIfAbsent(to, k -> new HashMap<>())
-                    .put(from, 1.0 / rate);
+                    .put(from, 1 / rate);
         }
     }
 
+    /**
+     * Reset the exchange rates.
+     */
     public static void reset() {
         exchangeRates.clear();
     }
@@ -72,10 +73,6 @@ public final class ExchangeRates {
             String current = queue.poll();
             double currentRate = visited.get(current);
 
-            if (current.equals(toCurrency)) {
-                return currentRate;
-            }
-
             if (exchangeRates.containsKey(current)) {
                 for (Map.Entry<String, Double> neighbor : exchangeRates.get(current).entrySet()) {
                     String nextCurrency = neighbor.getKey();
@@ -84,6 +81,13 @@ public final class ExchangeRates {
                     if (!visited.containsKey(nextCurrency)) {
                         visited.put(nextCurrency, currentRate * nextRate);
                         queue.add(nextCurrency);
+
+                        /*
+                          If the next currency is the target currency, return the exchange rate
+                         */
+                        if (nextCurrency.equals(toCurrency)) {
+                            return visited.get(nextCurrency);
+                        }
                     }
                 }
             }

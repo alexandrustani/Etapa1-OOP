@@ -1,5 +1,6 @@
 package org.poo.account;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import lombok.Setter;
 import org.poo.card.Card;
@@ -15,13 +16,13 @@ import org.poo.utils.Utils;
 public final class SavingsAccount implements Account {
     private String accountIBAN;
     private ArrayList<Card> cards;
-    private static final double INITIAL_BALANCE = 0;
     private double minimumBalance;
-    private static final String SAVINGS = "savings";
     private String accountType;
     private double balance;
     private String currency;
     private double interestRate;
+    private ArrayList<ObjectNode> accountTransactions;
+    private String alias;
 
     @Override
     public double getMinimumBalance() {
@@ -70,11 +71,13 @@ public final class SavingsAccount implements Account {
      */
     public SavingsAccount(final String currency, final double interestRate) {
         this.setAccountIBAN(Utils.generateIBAN());
-        this.setBalance(INITIAL_BALANCE);
+        this.setBalance(Utils.INITIAL_BALANCE);
         this.setCurrency(currency);
-        this.setAccountType(SAVINGS);
+        this.setAccountType(Utils.SAVINGS);
         this.setInterestRate(interestRate);
         this.setCards(new ArrayList<>());
+        this.setAccountTransactions(new ArrayList<>());
+        this.setAlias(null);
     }
 
     @Override
@@ -95,5 +98,47 @@ public final class SavingsAccount implements Account {
     @Override
     public void setCards(final ArrayList<Card> newCards) {
         this.cards = newCards;
+    }
+
+    @Override
+    public ArrayList<ObjectNode> getTransactions() {
+        return accountTransactions;
+    }
+
+    @Override
+    public void addTransaction(final ObjectNode transaction) {
+        for (ObjectNode accountTransaction : this.getTransactions()) {
+            if (accountTransaction.get("timestamp").asInt()
+                == transaction.get("timestamp").asInt()) {
+                return;
+            }
+        }
+
+        this.getTransactions().add(transaction);
+    }
+
+    @Override
+    public void setTransactions(final ArrayList<ObjectNode> transactions) {
+        this.accountTransactions = transactions;
+    }
+
+    @Override
+    public void addAmountToBalance(final double amountToAdd) {
+        this.balance += amountToAdd;
+    }
+
+    @Override
+    public void subtractAmountFromBalance(final double amountToSubtract) {
+        this.balance -= amountToSubtract;
+    }
+
+    @Override
+    public String getAlias() {
+        return this.alias;
+    }
+
+    @Override
+    public void setAlias(final String newAlias) {
+        this.alias = newAlias;
     }
 }

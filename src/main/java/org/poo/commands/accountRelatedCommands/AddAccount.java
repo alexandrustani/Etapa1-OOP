@@ -1,4 +1,4 @@
-package org.poo.commands;
+package org.poo.commands.accountRelatedCommands;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -51,5 +51,6 @@ public final class AddAccount {
         transaction.put("description", "New account created");
 
         neededUser.addTransaction(transaction);
+        neededUser.getAccounts().getLast().addTransaction(transaction);
     }
 }

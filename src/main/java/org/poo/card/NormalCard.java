@@ -8,16 +8,13 @@ import org.poo.utils.Utils;
 @Setter
 public final class NormalCard implements Card {
     private String cardNumber;
-    private static final String ACTIVE = "active";
     private String cardStatus;
-    private static final String CARD_TYPE = "normal";
-    private Boolean isFrozen = false;
     private String cardType;
 
     public NormalCard() {
         this.setCardNumber(Utils.generateCardNumber());
-        this.setCardStatus(ACTIVE);
-        this.setCardType(CARD_TYPE);
+        this.setCardStatus(Utils.ACTIVE);
+        this.setCardType(Utils.CARD_TYPE);
     }
 
     @Override

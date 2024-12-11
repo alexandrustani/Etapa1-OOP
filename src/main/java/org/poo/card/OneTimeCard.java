@@ -5,15 +5,13 @@ import org.poo.utils.Utils;
 
 public final class OneTimeCard implements Card {
     private String cardNumber;
-    private static final String ACTIVE = "active";
     private String cardStatus;
-    private static final String ONE_TIME_CARD = "one-time";
     private String cardType;
 
     public OneTimeCard() {
         this.setCardNumber(Utils.generateCardNumber());
-        this.setCardStatus(ACTIVE);
-        this.setCardType(ONE_TIME_CARD);
+        this.setCardStatus(Utils.ACTIVE);
+        this.setCardType(Utils.ONE_TIME_CARD);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.poo.commands;
+package org.poo.commands.payoutRelatedCommands;
 
 
 import lombok.Data;
@@ -39,6 +39,6 @@ public final class AddFunds {
             throw new IllegalArgumentException("Account not found");
         }
 
-        neededAccount.setBalance(neededAccount.getBalance() + command.getAmount());
+        neededAccount.addAmountToBalance(command.getAmount());
     }
 }

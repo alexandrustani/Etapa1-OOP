@@ -13,7 +13,13 @@ public final class Utils {
     private static final int DIGIT_GENERATION = 16;
     private static final String RO_STR = "RO";
     private static final String POO_STR = "POOB";
-
+    public static final double INITIAL_BALANCE = 0;
+    public static final String CLASSIC = "classic";
+    public static final String SAVINGS = "savings";
+    public static final String ACTIVE = "active";
+    public static final String CARD_TYPE = "normal";
+    public static final String ONE_TIME_CARD = "one-time";
+    public static final double WARNING_LIMIT = 30;
 
     private static Random ibanRandom = new Random(IBAN_SEED);
     private static Random cardRandom = new Random(CARD_SEED);

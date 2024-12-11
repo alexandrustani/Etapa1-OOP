@@ -1,4 +1,4 @@
-package org.poo.commands;
+package org.poo.commands.userRelatedCommands;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;

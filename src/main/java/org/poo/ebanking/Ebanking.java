@@ -2,13 +2,30 @@ package org.poo.ebanking;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
-import org.poo.commands.*;
+import org.poo.account.Account;
+import org.poo.commands.accountRelatedCommands.AddInterest;
+import org.poo.commands.accountRelatedCommands.AddAccount;
+import org.poo.commands.accountRelatedCommands.ChangeInterestRate;
+import org.poo.commands.accountRelatedCommands.DeleteAccount;
+import org.poo.commands.accountRelatedCommands.SetMinimumBalance;
+import org.poo.commands.accountRelatedCommands.SetAlias;
+import org.poo.commands.accountRelatedCommands.Report;
+import org.poo.commands.accountRelatedCommands.SpendingsReport;
+import org.poo.commands.cardRelatedCommands.CheckCardStatus;
+import org.poo.commands.cardRelatedCommands.CreateCard;
+import org.poo.commands.cardRelatedCommands.DeleteCard;
+import org.poo.commands.payoutRelatedCommands.AddFunds;
+import org.poo.commands.payoutRelatedCommands.PayOnline;
+import org.poo.commands.payoutRelatedCommands.SendMoney;
+import org.poo.commands.payoutRelatedCommands.SplitPayment;
+import org.poo.commands.userRelatedCommands.PrintTransactions;
+import org.poo.commands.userRelatedCommands.PrintUsers;
 import org.poo.exchangeRates.ExchangeRates;
 import org.poo.fileio.CommandInput;
 import org.poo.fileio.ObjectInput;
 import org.poo.user.User;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import org.poo.utils.Utils;
 
@@ -27,12 +44,33 @@ public final class Ebanking {
      * Create users from input
      * @param input - input object where I get the users
      */
-    public static void createUsers(ObjectInput input) {
+    public static void createUsers(final ObjectInput input) {
         for (int i = 0; i < input.getUsers().length; i++) {
             User user = new User(input.getUsers()[i].getFirstName(),
                     input.getUsers()[i].getLastName(),
                     input.getUsers()[i].getEmail());
             users.add(user);
+        }
+    }
+
+    /**
+     * Get users and accounts
+     * @param command - command to execute
+     * @param neededUsers - list of users that are needed
+     * @param neededAccounts - list of accounts that are needed
+     */
+    public static void getUsersAndAccounts(final CommandInput command,
+                                           final ArrayList<User> neededUsers,
+                                           final ArrayList<Account> neededAccounts) {
+        for (String accountIBAN : command.getAccounts()) {
+            for (User user : users) {
+                for (Account account : user.getAccounts()) {
+                    if (account.getAccountIBAN().equals(accountIBAN)) {
+                        neededUsers.add(user);
+                        neededAccounts.add(account);
+                    }
+                }
+            }
         }
     }
 
@@ -75,6 +113,30 @@ public final class Ebanking {
                     break;
                 case "printTransactions":
                     PrintTransactions.execute(command, users, output);
+                    break;
+                case "setMinBalance":
+                    SetMinimumBalance.execute(command, users);
+                    break;
+                case "checkCardStatus":
+                    CheckCardStatus.execute(command, users, output);
+                    break;
+                case "changeInterestRate":
+                    ChangeInterestRate.execute(command, users, output);
+                    break;
+                case "splitPayment":
+                    SplitPayment.execute(command);
+                    break;
+                case "addInterest":
+                    AddInterest.execute(command, users, output);
+                    break;
+                case "report":
+                    Report.execute(command, users, output);
+                    break;
+                case "spendingsReport":
+                    SpendingsReport.execute(command, users, output);
+                    break;
+                case "setAlias":
+                    SetAlias.execute(command, users);
                     break;
                 default:
                     break;

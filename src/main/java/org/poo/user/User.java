@@ -7,7 +7,7 @@ import org.poo.account.Account;
 import java.util.ArrayList;
 
 /**
- * User class
+ * Class that represents the user.
  */
 @Getter
 @Setter
@@ -46,19 +46,5 @@ public class User {
      */
     public void addTransaction(final ObjectNode transaction) {
         this.getTransactions().add(transaction);
-    }
-
-    /**
-     * Get account by IBAN
-     * @param accountIBAN to search
-     * @return account
-     */
-    public Account getAccountByIBAN(final String accountIBAN) {
-        for (Account account : this.getAccounts()) {
-            if (account.getAccountIBAN().equals(accountIBAN)) {
-                return account;
-            }
-        }
-        return null;
     }
 }
