@@ -41,8 +41,7 @@ public final class AddAccount {
             throw new IllegalArgumentException("User not found");
         }
 
-        neededUser.addAccount(FactoryOfAccount.createAccount(command.getAccountType(),
-                command));
+        neededUser.addAccount(FactoryOfAccount.createAccount(command));
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();

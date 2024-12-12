@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 import org.poo.account.Account;
+import org.poo.account.SavingsAccount;
 import org.poo.fileio.CommandInput;
 import org.poo.user.User;
 
@@ -59,6 +60,10 @@ public final class AddInterest {
             commandNode.put("timestamp", command.getTimestamp());
 
             output.add(commandNode);
+
+            return;
         }
+
+        ((SavingsAccount) neededAccount).addInterestRate();
     }
 }

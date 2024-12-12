@@ -1,9 +1,9 @@
 package org.poo.commands.cardRelatedCommands;
 
 import lombok.Data;
+import org.poo.card.Card;
 import org.poo.fileio.CommandInput;
 import org.poo.user.User;
-import org.poo.card.FactoryOfCard;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.account.Account;
@@ -59,7 +59,7 @@ public final class CreateCard {
             return;
         }
 
-        neededAccount.getCards().add(FactoryOfCard.createCard(cardType));
+        neededAccount.getCards().add(new Card(cardType));
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();

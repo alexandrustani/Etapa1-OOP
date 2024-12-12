@@ -1,4 +1,4 @@
-package org.poo.user;
+package org.poo.account;
 
 import lombok.Getter;
 import lombok.Setter;

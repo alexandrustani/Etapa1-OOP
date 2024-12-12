@@ -64,7 +64,7 @@ public final class Report {
 
         ArrayNode transactions = mapper.createArrayNode();
 
-        for (ObjectNode transaction : neededAccount.getTransactions()) {
+        for (ObjectNode transaction : neededAccount.getAccountTransactions()) {
             if (command.getStartTimestamp() <=  transaction.get("timestamp").asInt()
                 && transaction.get("timestamp").asInt() <= command.getEndTimestamp()) {
                 transactions.add(transaction);

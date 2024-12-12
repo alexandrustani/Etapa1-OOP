@@ -45,6 +45,5 @@ public final class SetAlias {
         }
 
         neededAccount.setAlias(command.getAlias());
-        System.out.println(neededAccount.getAlias());
     }
 }

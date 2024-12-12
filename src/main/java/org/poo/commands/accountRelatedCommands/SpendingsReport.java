@@ -7,12 +7,15 @@ import lombok.Data;
 import org.poo.account.Account;
 import org.poo.account.ClassicAccount;
 import org.poo.fileio.CommandInput;
-import org.poo.user.CommerciantsDetails;
+import org.poo.account.CommerciantsDetails;
 import org.poo.user.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Spendings report Command class
+ */
 @Data
 public final class SpendingsReport {
     /**
@@ -75,7 +78,7 @@ public final class SpendingsReport {
 
         ArrayNode transactions = mapper.createArrayNode();
 
-        for (ObjectNode transaction : neededAccount.getTransactions()) {
+        for (ObjectNode transaction : neededAccount.getAccountTransactions()) {
             if ((command.getStartTimestamp() <=  transaction.get("timestamp").asInt()
                     && transaction.get("timestamp").asInt() <= command.getEndTimestamp())
                 && transaction.has("commerciant")) {

@@ -17,13 +17,11 @@ public final class FactoryOfAccount {
 
     /**
      * Create an account based on the account type.
-     *
-     * @param accountType the type of account
      * @param command the command input
      * @return the account
      */
-    public static Account createAccount(final String accountType, final CommandInput command) {
-        return switch (accountType) {
+    public static Account createAccount(final CommandInput command) {
+        return switch (command.getAccountType()) {
             case "savings" -> new SavingsAccount(command.getCurrency(),
                                                         command.getInterestRate());
             case "classic" -> new ClassicAccount(command.getCurrency());

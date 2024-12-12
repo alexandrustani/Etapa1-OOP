@@ -1,125 +1,77 @@
 package org.poo.account;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Data;
 import org.poo.card.Card;
+import org.poo.utils.Utils;
 
 import java.util.ArrayList;
 
-/**
- * Interface that represents an account.
- */
-public interface Account {
-    /**
-     * Gets the minimum balance.
-     * @return the minimum balance.
-     */
-    double getMinimumBalance();
+@Data
+public class Account {
+    private String accountIBAN;
+    private ArrayList<Card> cards;
+    private double minimumBalance;
+    private String accountType;
+    private double balance;
+    private String currency;
+    private ArrayList<ObjectNode> accountTransactions;
+    private String alias;
 
     /**
-     * Sets the minimum balance.
-     * @param minimumBalance the minimum balance.
+     * Constructor for Account
+     * @param currency for the account
+     * @param accountType for the account
      */
-    void setMinimumBalance(double minimumBalance);
-
-    /**
-     * Gets the account type.
-     * @return the account type.
-     */
-    String getAccountType();
-
-    /**
-     * Sets the account type.
-     * @param accountType the account type.
-     */
-    void setAccountType(String accountType);
-
-    /**
-     * Gets the balance.
-     * @return the balance.
-     */
-    double getBalance();
-
-    /**
-     * Sets the balance.
-     * @param balance the balance.
-     */
-    void setBalance(double balance);
-
-    /**
-     * Gets the currency.
-     * @return the currency.
-     */
-    String getCurrency();
-
-    /**
-     * Sets the currency.
-     * @param currency the currency.
-     */
-    void setCurrency(String currency);
-
-    /**
-     * Gets the IBAN.
-     * @return the IBAN.
-     */
-    String getAccountIBAN();
-
-    /**
-     * Sets the IBAN.
-     * @param newIBAN the new IBAN.
-     */
-    void setAccountIBAN(String newIBAN);
-
-    /**
-     * Gets the cards.
-     * @return the cards.
-     */
-    ArrayList<Card> getCards();
-
-    /**
-     * Sets the cards.
-     * @param newCards the cards.
-     */
-    void setCards(ArrayList<Card> newCards);
+    public Account(final String currency, final String accountType) {
+        this.setAccountIBAN(Utils.generateIBAN());
+        this.setBalance(Utils.INITIAL_BALANCE);
+        this.setCurrency(currency);
+        this.setAccountType(accountType);
+        this.setCards(new ArrayList<>());
+        this.setAccountTransactions(new ArrayList<>());
+        this.setAlias(null);
+    }
 
     /**
      * Add transaction to account
      * @param transaction to add
      */
-    void addTransaction(ObjectNode transaction);
+    public void addTransaction(final ObjectNode transaction) {
+        for (ObjectNode accountTransaction : accountTransactions) {
+            if (accountTransaction.equals(transaction)) {
+                return;
+            }
+        }
 
-    /**
-     * Set transactions
-     * @param newTransactions to set
-     */
-    void setTransactions(ArrayList<ObjectNode> newTransactions);
-
-    /**
-     * Get transactions
-     * @return transactions
-     */
-    ArrayList<ObjectNode> getTransactions();
+        accountTransactions.add(transaction);
+    }
 
     /**
      * Add amount to balance
-     * @param amount to add
+     * @param amountToAdd to add
      */
-    void addAmountToBalance(double amount);
+    public void addAmountToBalance(final double amountToAdd) {
+        this.balance += amountToAdd;
+    }
 
     /**
      * Subtract amount from balance
-     * @param amount to subtract
+     * @param amountToSubtract to subtract
      */
-    void subtractAmountFromBalance(double amount);
+    public void subtractAmountFromBalance(final double amountToSubtract) {
+        this.balance -= amountToSubtract;
+    }
 
     /**
-     * Set the alias of the account
-     * @param newAlias the alias
+     * Generate a new card number for the needed card
+     * @param neededCard - the card for which the card number is to be generated
      */
-    void setAlias(String newAlias);
-
-    /**
-     * Get the alias of the account
-     * @return the alias
-     */
-    String getAlias();
+    public void generateNewCardNumber(final Card neededCard) {
+        for (Card card : cards) {
+            if (neededCard.getCardNumber().equals(card.getCardNumber())) {
+                card.setCardNumber(Utils.generateCardNumber());
+            }
+        }
+    }
 }

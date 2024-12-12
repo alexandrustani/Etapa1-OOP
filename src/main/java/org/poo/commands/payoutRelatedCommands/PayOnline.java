@@ -7,13 +7,12 @@ import lombok.Data;
 import org.poo.account.Account;
 import org.poo.account.ClassicAccount;
 import org.poo.card.Card;
-import org.poo.card.FactoryOfCard;
 import org.poo.exchangeRates.ExchangeRates;
 import org.poo.fileio.CommandInput;
 
 import java.util.ArrayList;
 
-import org.poo.user.CommerciantsDetails;
+import org.poo.account.CommerciantsDetails;
 import org.poo.user.User;
 
 /**
@@ -129,9 +128,7 @@ public final class PayOnline {
             neededAccount.addTransaction(transaction1);
             neededUser.addTransaction(transaction1);
 
-            neededAccount.getCards().remove(neededCard);
-
-            neededAccount.getCards().add(FactoryOfCard.createCard("one-time"));
+            neededAccount.generateNewCardNumber(neededCard);
 
             ObjectNode transaction2 = mapper.createObjectNode();
 

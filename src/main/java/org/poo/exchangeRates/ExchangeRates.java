@@ -11,7 +11,6 @@ import java.util.Queue;
 /**
  * Class that represents the exchange rates.
  */
-
 @Data
 public final class ExchangeRates {
     /**
