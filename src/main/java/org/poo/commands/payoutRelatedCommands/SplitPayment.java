@@ -5,7 +5,6 @@ import lombok.Data;
 import org.poo.account.Account;
 import org.poo.ebanking.Ebanking;
 import org.poo.fileio.CommandInput;
-import org.poo.user.User;
 
 import java.util.ArrayList;
 import org.poo.exchangeRates.ExchangeRates;
@@ -48,15 +47,13 @@ public final class SplitPayment {
      * @param command - the command to be executed
      */
     public static void execute(final CommandInput command) {
-        ArrayList<User> usersToPay = new ArrayList<>();
-
         ArrayList<Account> accountsToPay = new ArrayList<>();
 
         double neededAmountPerAccount = command.getAmount() / command.getAccounts().size();
 
         ArrayList<Double> exchangeRates = new ArrayList<>();
 
-        Ebanking.getUsersAndAccounts(command, usersToPay, accountsToPay);
+        Ebanking.getUsersAndAccounts(command, accountsToPay);
 
         for (Account account : accountsToPay) {
             if (account.getCurrency().equals(command.getCurrency())) {
@@ -84,10 +81,6 @@ public final class SplitPayment {
                             String.format("Account %s has insufficient funds for a split payment.",
                                             insufficientFunds.getAccountIBAN()));
 
-            for (User user : usersToPay) {
-                user.addTransaction(transaction);
-            }
-
             for (Account account : accountsToPay) {
                 account.addTransaction(transaction);
             }
@@ -99,7 +92,6 @@ public final class SplitPayment {
             accountsToPay.get(i).subtractAmountFromBalance(neededAmountPerAccount
                                                             * exchangeRates.get(i));
 
-            usersToPay.get(i).addTransaction(transaction);
             accountsToPay.get(i).addTransaction(transaction);
         }
     }

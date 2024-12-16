@@ -59,7 +59,6 @@ public final class DeleteCard {
         transaction.put("timestamp", command.getTimestamp());
 
         neededAccount.addTransaction(transaction);
-        neededUser.addTransaction(transaction);
 
         neededAccount.getCards().remove(neededCard);
     }

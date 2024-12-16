@@ -50,7 +50,6 @@ public final class ChangeInterestRate {
                             + command.getInterestRate());
 
             neededAccount.addTransaction(transaction);
-            neededUser.addTransaction(transaction);
 
             return;
         }

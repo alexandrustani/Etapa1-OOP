@@ -56,17 +56,14 @@ public final class Ebanking {
     /**
      * Get users and accounts
      * @param command - command to execute
-     * @param neededUsers - list of users that are needed
      * @param neededAccounts - list of accounts that are needed
      */
     public static void getUsersAndAccounts(final CommandInput command,
-                                           final ArrayList<User> neededUsers,
                                            final ArrayList<Account> neededAccounts) {
         for (String accountIBAN : command.getAccounts()) {
             for (User user : users) {
                 for (Account account : user.getAccounts()) {
                     if (account.getAccountIBAN().equals(accountIBAN)) {
-                        neededUsers.add(user);
                         neededAccounts.add(account);
                     }
                 }

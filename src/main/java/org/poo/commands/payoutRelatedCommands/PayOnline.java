@@ -64,7 +64,6 @@ public final class PayOnline {
             transaction.put("description", "The card is frozen");
 
             neededAccount.addTransaction(transaction);
-            neededUser.addTransaction(transaction);
 
             return true;
         }
@@ -92,7 +91,6 @@ public final class PayOnline {
             transaction.put("description", "Insufficient funds");
             transaction.put("timestamp", command.getTimestamp());
 
-            neededUser.addTransaction(transaction);
             neededAccount.addTransaction(transaction);
 
             return;
@@ -103,7 +101,6 @@ public final class PayOnline {
         transaction.put("description", "Card payment");
         transaction.put("timestamp", command.getTimestamp());
 
-        neededUser.addTransaction(transaction);
         neededAccount.addTransaction(transaction);
 
         CommerciantsDetails commerciant = new CommerciantsDetails(command.getCommerciant(),
@@ -126,7 +123,6 @@ public final class PayOnline {
             transaction1.put("timestamp", command.getTimestamp());
 
             neededAccount.addTransaction(transaction1);
-            neededUser.addTransaction(transaction1);
 
             neededAccount.generateNewCardNumber(neededCard);
 
@@ -139,7 +135,6 @@ public final class PayOnline {
             transaction2.put("timestamp", command.getTimestamp());
 
             neededAccount.addTransaction(transaction2);
-            neededUser.addTransaction(transaction2);
         }
     }
 

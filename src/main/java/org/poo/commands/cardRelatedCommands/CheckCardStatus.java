@@ -33,7 +33,6 @@ public final class CheckCardStatus {
     public static void execute(final CommandInput command,
                                final ArrayList<User> users,
                                final ArrayNode output) {
-        User neededUser = null;
         Account neededAccount = null;
         Card neededCard = null;
 
@@ -47,14 +46,13 @@ public final class CheckCardStatus {
                     if (card.getCardNumber().equals(command.getCardNumber())) {
                         neededCard = card;
                         neededAccount = account;
-                        neededUser = user;
                         break;
                     }
                 }
             }
         }
 
-        if (neededUser == null) {
+        if (neededAccount == null) {
             ObjectNode error = mapper.createObjectNode();
             error.put("description", "Card not found");
             error.put("timestamp", command.getTimestamp());
@@ -74,7 +72,6 @@ public final class CheckCardStatus {
             frozen.put("description",
                     "You have reached the minimum amount of funds, the card will be frozen");
 
-            neededUser.addTransaction(frozen);
             neededAccount.addTransaction(frozen);
 
             return;

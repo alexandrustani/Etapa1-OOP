@@ -28,16 +28,12 @@ public final class SendMoney {
      * @param users - the list of users
      */
     public static void execute(final CommandInput command, final ArrayList<User> users) {
-        User sender = null;
-        User receiver = null;
-
         Account senderAccount = null;
         Account receiverAccount = null;
 
         for (User user : users) {
             for (Account account : user.getAccounts()) {
                 if (account.getAccountIBAN().equals(command.getAccount())) {
-                    sender = user;
                     senderAccount = account;
                 }
 
@@ -49,13 +45,12 @@ public final class SendMoney {
                 if (account.getAccountIBAN().equals(command.getReceiver())
                     || (account.getAlias() != null
                         && account.getAlias().equals(command.getReceiver()))) {
-                    receiver = user;
                     receiverAccount = account;
                 }
             }
         }
 
-        if (sender == null || receiver == null) {
+        if (senderAccount == null || receiverAccount == null) {
             return;
         }
 
@@ -75,7 +70,6 @@ public final class SendMoney {
             transaction.put("description", "Insufficient funds");
             transaction.put("timestamp", command.getTimestamp());
 
-            sender.addTransaction(transaction);
             senderAccount.addTransaction(transaction);
 
             return;
@@ -93,7 +87,6 @@ public final class SendMoney {
                             command.getAmount() + " " + senderAccount.getCurrency());
         senderTransaction.put("transferType", "sent");
 
-        sender.addTransaction(senderTransaction);
         senderAccount.addTransaction(senderTransaction);
 
         receiverTransaction.put("timestamp", command.getTimestamp());
@@ -105,7 +98,6 @@ public final class SendMoney {
                         + receiverAccount.getCurrency());
         receiverTransaction.put("transferType", "received");
 
-        receiver.addTransaction(receiverTransaction);
         receiverAccount.addTransaction(receiverTransaction);
 
         senderAccount.subtractAmountFromBalance(command.getAmount());

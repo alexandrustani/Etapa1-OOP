@@ -71,7 +71,6 @@ public final class DeleteAccount {
             transaction.put("description",
                          "Account couldn't be deleted - there are funds remaining");
 
-            neededUser.addTransaction(transaction);
             neededAccount.addTransaction(transaction);
         }
 

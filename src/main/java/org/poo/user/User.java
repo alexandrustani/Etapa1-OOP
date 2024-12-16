@@ -1,6 +1,5 @@
 package org.poo.user;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import lombok.Setter;
 import org.poo.account.Account;
@@ -16,7 +15,6 @@ public class User {
     private String lastName;
     private String email;
     private ArrayList<Account> accounts;
-    private ArrayList<ObjectNode> transactions;
 
     /**
      * Constructor for User
@@ -29,7 +27,6 @@ public class User {
         this.setLastName(lastName);
         this.setEmail(email);
         this.setAccounts(new ArrayList<>());
-        this.setTransactions(new ArrayList<>());
     }
 
     /**
@@ -38,13 +35,5 @@ public class User {
      */
     public void addAccount(final Account account) {
         this.getAccounts().add(account);
-    }
-
-    /**
-     * Add transaction to user
-     * @param transaction to add
-     */
-    public void addTransaction(final ObjectNode transaction) {
-        this.getTransactions().add(transaction);
     }
 }

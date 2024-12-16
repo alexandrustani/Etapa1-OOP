@@ -70,7 +70,6 @@ public final class CreateCard {
         transaction.put("description", "New card created");
         transaction.put("timestamp", command.getTimestamp());
 
-        neededUser.addTransaction(transaction);
         neededAccount.addTransaction(transaction);
     }
 }

@@ -49,7 +49,6 @@ public final class AddAccount {
         transaction.put("timestamp", timestamp);
         transaction.put("description", "New account created");
 
-        neededUser.addTransaction(transaction);
         neededUser.getAccounts().getLast().addTransaction(transaction);
     }
 }
