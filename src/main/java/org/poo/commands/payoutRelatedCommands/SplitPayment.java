@@ -33,9 +33,10 @@ public final class SplitPayment {
                                  final ArrayList<Double> exchangeRates) {
         Account insufficientFunds = null;
 
-        for (int i = 0; i < accounts.size(); i++) {
+        for (int i = accounts.size() - 1; i >= 0; i--) {
             if (accounts.get(i).getBalance() < amountPerAccount * exchangeRates.get(i)) {
                 insufficientFunds = accounts.get(i);
+                break;
             }
         }
 
@@ -45,28 +46,24 @@ public final class SplitPayment {
     /**
      * Execute the splitPayment command.
      * @param command - the command to be executed
+     * @param mapper - the object mapper
      */
-    public static void execute(final CommandInput command) {
+    public static void execute(final CommandInput command, final ObjectMapper mapper) {
         ArrayList<Account> accountsToPay = new ArrayList<>();
 
         double neededAmountPerAccount = command.getAmount() / command.getAccounts().size();
 
         ArrayList<Double> exchangeRates = new ArrayList<>();
 
-        Ebanking.getUsersAndAccounts(command, accountsToPay);
+        Ebanking.getNeededAccounts(command, accountsToPay);
 
         for (Account account : accountsToPay) {
-            if (account.getCurrency().equals(command.getCurrency())) {
-                exchangeRates.add(1.0);
-            } else {
-                exchangeRates.add(ExchangeRates.findCurrency(command.getCurrency(),
-                        account.getCurrency()));
-            }
+            exchangeRates.add(ExchangeRates.findCurrency(command.getCurrency(),
+                    account.getCurrency()));
         }
 
         Account insufficientFunds = canPay(accountsToPay, neededAmountPerAccount, exchangeRates);
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();
 
         transaction.put("amount", neededAmountPerAccount);

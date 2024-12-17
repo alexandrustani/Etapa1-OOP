@@ -3,6 +3,9 @@ package org.poo.card;
 import lombok.Data;
 import org.poo.utils.Utils;
 
+/**
+ * Class representing a card.
+ */
 @Data
 public final class Card {
     private String cardNumber;

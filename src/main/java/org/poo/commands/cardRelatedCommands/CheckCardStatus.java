@@ -29,14 +29,14 @@ public final class CheckCardStatus {
      * @param command - the command to be executed
      * @param users - the list of users
      * @param output - the output array
+     * @param mapper - the object mapper
      */
     public static void execute(final CommandInput command,
                                final ArrayList<User> users,
-                               final ArrayNode output) {
+                               final ArrayNode output, final ObjectMapper mapper) {
         Account neededAccount = null;
         Card neededCard = null;
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode commandNode = mapper.createObjectNode();
         commandNode.put("command", "checkCardStatus");
 

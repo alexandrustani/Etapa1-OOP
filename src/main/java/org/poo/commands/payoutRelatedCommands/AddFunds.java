@@ -22,6 +22,8 @@ public final class AddFunds {
 
     /**
      * Executes the command.
+     * @param command - the command to be executed
+     * @param users - the list of users
      */
     public static void execute(final CommandInput command, final ArrayList<User> users) {
         Account neededAccount = null;

@@ -26,8 +26,10 @@ public final class SendMoney {
      * Execute the sendMoney command.
      * @param command - the command to be executed
      * @param users - the list of users
+     * @param mapper - the object mapper
      */
-    public static void execute(final CommandInput command, final ArrayList<User> users) {
+    public static void execute(final CommandInput command, final ArrayList<User> users,
+                                final ObjectMapper mapper) {
         Account senderAccount = null;
         Account receiverAccount = null;
 
@@ -54,17 +56,10 @@ public final class SendMoney {
             return;
         }
 
-        double exchangeRate;
-
-        if (receiverAccount.getCurrency().equals(senderAccount.getCurrency())) {
-            exchangeRate = 1.0;
-        } else {
-            exchangeRate = ExchangeRates.findCurrency(senderAccount.getCurrency(),
-                                                      receiverAccount.getCurrency());
-        }
+        double exchangeRate = ExchangeRates.findCurrency(senderAccount.getCurrency(),
+                                                         receiverAccount.getCurrency());
 
         if (senderAccount.getBalance() < command.getAmount()) {
-            ObjectMapper mapper = new ObjectMapper();
             ObjectNode transaction = mapper.createObjectNode();
 
             transaction.put("description", "Insufficient funds");
@@ -75,7 +70,6 @@ public final class SendMoney {
             return;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode senderTransaction = mapper.createObjectNode();
         ObjectNode receiverTransaction = mapper.createObjectNode();
 

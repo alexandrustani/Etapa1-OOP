@@ -28,9 +28,10 @@ public final class DeleteAccount {
      * @param command - the command to be executed
      * @param users - the list of users
      * @param output - the output array
+     * @param mapper - the object mapper
      */
     public static void execute(final CommandInput command, final ArrayList<User> users,
-                                final ArrayNode output) {
+                                final ArrayNode output, final ObjectMapper mapper) {
         User neededUser = null;
         Account neededAccount = null;
 
@@ -48,7 +49,6 @@ public final class DeleteAccount {
             throw new IllegalArgumentException("User not found");
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode commandNode = mapper.createObjectNode();
 
         commandNode.put("command", "deleteAccount");

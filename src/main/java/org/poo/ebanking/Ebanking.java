@@ -1,5 +1,6 @@
 package org.poo.ebanking;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.Data;
 import org.poo.account.Account;
@@ -58,8 +59,8 @@ public final class Ebanking {
      * @param command - command to execute
      * @param neededAccounts - list of accounts that are needed
      */
-    public static void getUsersAndAccounts(final CommandInput command,
-                                           final ArrayList<Account> neededAccounts) {
+    public static void getNeededAccounts(final CommandInput command,
+                                         final ArrayList<Account> neededAccounts) {
         for (String accountIBAN : command.getAccounts()) {
             for (User user : users) {
                 for (Account account : user.getAccounts()) {
@@ -81,62 +82,67 @@ public final class Ebanking {
         createUsers(input);
         ExchangeRates.create(input);
         Utils.resetRandom();
+        ObjectMapper mapper = new ObjectMapper();
 
         for (CommandInput command : input.getCommands()) {
-            switch (command.getCommand()) {
-                case "printUsers":
-                    PrintUsers.execute(users, output, command.getTimestamp());
-                    break;
-                case "addAccount":
-                    AddAccount.execute(command, users, command.getTimestamp());
-                    break;
-                case "createCard", "createOneTimeCard":
-                    CreateCard.execute(command, users);
-                    break;
-                case "addFunds":
-                    AddFunds.execute(command, users);
-                    break;
-                case "deleteAccount":
-                    DeleteAccount.execute(command, users, output);
-                    break;
-                case "deleteCard":
-                    DeleteCard.execute(command, users);
-                    break;
-                case "payOnline":
-                    PayOnline.execute(command, users, output);
-                    break;
-                case "sendMoney":
-                    SendMoney.execute(command, users);
-                    break;
-                case "printTransactions":
-                    PrintTransactions.execute(command, users, output);
-                    break;
-                case "setMinBalance":
-                    SetMinimumBalance.execute(command, users);
-                    break;
-                case "checkCardStatus":
-                    CheckCardStatus.execute(command, users, output);
-                    break;
-                case "changeInterestRate":
-                    ChangeInterestRate.execute(command, users, output);
-                    break;
-                case "splitPayment":
-                    SplitPayment.execute(command);
-                    break;
-                case "addInterest":
-                    AddInterest.execute(command, users, output);
-                    break;
-                case "report":
-                    Report.execute(command, users, output);
-                    break;
-                case "spendingsReport":
-                    SpendingsReport.execute(command, users, output);
-                    break;
-                case "setAlias":
-                    SetAlias.execute(command, users);
-                    break;
-                default:
-                    break;
+            try {
+                switch (command.getCommand()) {
+                    case "printUsers":
+                        PrintUsers.execute(users, output, command.getTimestamp(), mapper);
+                        break;
+                    case "addAccount":
+                        AddAccount.execute(command, users, command.getTimestamp(), mapper);
+                        break;
+                    case "createCard", "createOneTimeCard":
+                        CreateCard.execute(command, users, mapper);
+                        break;
+                    case "addFunds":
+                        AddFunds.execute(command, users);
+                        break;
+                    case "deleteAccount":
+                        DeleteAccount.execute(command, users, output, mapper);
+                        break;
+                    case "deleteCard":
+                        DeleteCard.execute(command, users, mapper);
+                        break;
+                    case "payOnline":
+                        PayOnline.execute(command, users, output, mapper);
+                        break;
+                    case "sendMoney":
+                        SendMoney.execute(command, users, mapper);
+                        break;
+                    case "printTransactions":
+                        PrintTransactions.execute(command, users, output, mapper);
+                        break;
+                    case "setMinBalance":
+                        SetMinimumBalance.execute(command, users);
+                        break;
+                    case "checkCardStatus":
+                        CheckCardStatus.execute(command, users, output, mapper);
+                        break;
+                    case "changeInterestRate":
+                        ChangeInterestRate.execute(command, users, output, mapper);
+                        break;
+                    case "splitPayment":
+                        SplitPayment.execute(command, mapper);
+                        break;
+                    case "addInterest":
+                        AddInterest.execute(command, users, output, mapper);
+                        break;
+                    case "report":
+                        Report.execute(command, users, output, mapper);
+                        break;
+                    case "spendingsReport":
+                        SpendingsReport.execute(command, users, output, mapper);
+                        break;
+                    case "setAlias":
+                        SetAlias.execute(command, users);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

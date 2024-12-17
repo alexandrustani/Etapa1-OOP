@@ -26,8 +26,10 @@ public final class DeleteCard {
      * Execute the deleteCard command.
      * @param command - the command to be executed
      * @param users - the list of users
+     * @param mapper - the object mapper
      */
-    public static void execute(final CommandInput command, final ArrayList<User> users) {
+    public static void execute(final CommandInput command, final ArrayList<User> users,
+                               final ObjectMapper mapper) {
         User neededUser = null;
         Account neededAccount = null;
         Card neededCard = null;
@@ -49,7 +51,6 @@ public final class DeleteCard {
             return;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();
 
         transaction.put("account", neededAccount.getAccountIBAN());

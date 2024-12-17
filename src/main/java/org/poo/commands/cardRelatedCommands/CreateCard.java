@@ -38,8 +38,10 @@ public final class CreateCard {
      * Execute the createCard command
      * @param command to execute
      * @param users to create card
+     * @param mapper to map the object
      */
-    public static void execute(final CommandInput command, final ArrayList<User> users) {
+    public static void execute(final CommandInput command, final ArrayList<User> users,
+                               final ObjectMapper mapper) {
         Account neededAccount = null;
         User neededUser = null;
         String cardType = createCardType(command);
@@ -61,7 +63,6 @@ public final class CreateCard {
 
         neededAccount.getCards().add(new Card(cardType));
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();
 
         transaction.put("account", neededAccount.getAccountIBAN());

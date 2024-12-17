@@ -38,6 +38,14 @@ public final class ExchangeRates {
             exchangeRates
                     .computeIfAbsent(to, k -> new HashMap<>())
                     .put(from, 1 / rate);
+
+            exchangeRates
+                    .computeIfAbsent(from, k -> new HashMap<>())
+                    .put(from, 1.0);
+
+            exchangeRates
+                    .computeIfAbsent(to, k -> new HashMap<>())
+                    .put(to, 1.0);
         }
     }
 

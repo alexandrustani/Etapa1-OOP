@@ -35,15 +35,16 @@ public final class PayOnline {
      * @param neededCard - the card used for the payment
      * @param output - the output array
      * @param neededAccount - the account from which the payment is made
+     * @param mapper - the object mapper
      * @return true if an error occurred, false otherwise
      */
     public static boolean createErrorTransactions(final CommandInput command,
                                                   final User neededUser,
                                                   final Card neededCard,
                                                   final ArrayNode output,
-                                                  final Account neededAccount) {
+                                                  final Account neededAccount,
+                                                  final ObjectMapper mapper) {
         if (neededUser == null) {
-            ObjectMapper mapper = new ObjectMapper();
             ObjectNode commandNode = mapper.createObjectNode();
 
             commandNode.put("command", "payOnline");
@@ -57,7 +58,6 @@ public final class PayOnline {
 
             return true;
         } else if (neededCard.getCardStatus().equals("frozen")) {
-            ObjectMapper mapper = new ObjectMapper();
             ObjectNode transaction = mapper.createObjectNode();
 
             transaction.put("timestamp", command.getTimestamp());
@@ -79,12 +79,13 @@ public final class PayOnline {
      * @param neededCard - the card used for the payment
      * @param neededExchangeRate - the exchange rate between the account currency
      *                              and the payment currency
+     * @param mapper - the object mapper
      */
     public static void createSuccesTransactions(final CommandInput command, final User neededUser,
                                                 final Account neededAccount,
                                                 final Card neededCard,
-                                                final double neededExchangeRate) {
-        ObjectMapper mapper = new ObjectMapper();
+                                                final double neededExchangeRate,
+                                                final ObjectMapper mapper) {
         ObjectNode transaction = mapper.createObjectNode();
 
         if (neededAccount.getBalance() < command.getAmount() * neededExchangeRate) {
@@ -114,7 +115,7 @@ public final class PayOnline {
                                  * neededExchangeRate);
 
         if (neededCard.getCardType().equals("one-time")) {
-            ObjectNode transaction1 = mapper.createObjectNode();
+            var transaction1 = mapper.createObjectNode();
 
             transaction1.put("account", neededAccount.getAccountIBAN());
             transaction1.put("card", neededCard.getCardNumber());
@@ -125,8 +126,7 @@ public final class PayOnline {
             neededAccount.addTransaction(transaction1);
 
             neededAccount.generateNewCardNumber(neededCard);
-
-            ObjectNode transaction2 = mapper.createObjectNode();
+            var transaction2 = mapper.createObjectNode();
 
             transaction2.put("account", neededAccount.getAccountIBAN());
             transaction2.put("card", neededAccount.getCards().getLast().getCardNumber());
@@ -143,9 +143,10 @@ public final class PayOnline {
      * @param command - the command to be executed
      * @param users - the list of users
      * @param output - the output array
+     * @param mapper - the object mapper
      */
     public static void execute(final CommandInput command, final ArrayList<User> users,
-                                final ArrayNode output) {
+                                final ArrayNode output, final ObjectMapper mapper) {
         Card neededCard = null;
         Account neededAccount = null;
         User neededUser = null;
@@ -163,20 +164,15 @@ public final class PayOnline {
             }
         }
 
-        if (createErrorTransactions(command, neededUser, neededCard, output, neededAccount)) {
+        if (createErrorTransactions(command, neededUser, neededCard, output, neededAccount,
+                                    mapper)) {
             return;
         }
 
-        double neededExchangeRate;
-
-        if (neededAccount.getCurrency().equals(command.getCurrency())) {
-            neededExchangeRate = 1.0;
-        } else {
-            neededExchangeRate = ExchangeRates.findCurrency(command.getCurrency(),
-                                                             neededAccount.getCurrency());
-        }
+        double neededExchangeRate = ExchangeRates.findCurrency(command.getCurrency(),
+                                                                neededAccount.getCurrency());
 
         createSuccesTransactions(command, neededUser, neededAccount, neededCard,
-                                 neededExchangeRate);
+                                 neededExchangeRate, mapper);
     }
 }

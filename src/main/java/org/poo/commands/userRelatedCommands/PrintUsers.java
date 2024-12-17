@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.poo.user.User;
 import org.poo.account.Account;
 import org.poo.card.Card;
-
 import java.util.ArrayList;
 
 /**
@@ -27,10 +26,10 @@ public final class PrintUsers {
      * @param listOfUsers - list of users
      * @param output - output array
      * @param timestamp - timestamp
+     * @param mapper - object mapper
      */
     public static void execute(final ArrayList<User> listOfUsers, final ArrayNode output,
-                               final int timestamp) {
-        ObjectMapper mapper = new ObjectMapper();
+                               final int timestamp, final ObjectMapper mapper) {
         ObjectNode command = mapper.createObjectNode();
 
         command.put("command", "printUsers");

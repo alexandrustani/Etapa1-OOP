@@ -19,10 +19,14 @@ public final class ChangeInterestRate {
     }
 
     /**
-     * Executes the command.
+     * Execute the changeInterestRate command.
+     * @param command - the command to be executed
+     * @param users - the list of users
+     * @param output - the output array
+     * @param mapper - the object mapper
      */
     public static void execute(final CommandInput command, final ArrayList<User> users,
-                               final ArrayNode output) {
+                               final ArrayNode output, final ObjectMapper mapper) {
         User neededUser = null;
         Account neededAccount = null;
 
@@ -42,7 +46,6 @@ public final class ChangeInterestRate {
 
         if (neededAccount.getAccountType().equals("savings")) {
             ((SavingsAccount) neededAccount).setInterestRate(command.getInterestRate());
-            ObjectMapper mapper = new ObjectMapper();
             ObjectNode transaction = mapper.createObjectNode();
 
             transaction.put("timestamp", command.getTimestamp());
@@ -54,7 +57,6 @@ public final class ChangeInterestRate {
             return;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode commandOutput = mapper.createObjectNode();
 
         commandOutput.put("command", "changeInterestRate");

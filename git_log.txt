@@ -1,0 +1,29 @@
+commit 3b7d3c08fa767a2914fbde5350f494916497c29f
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Mon Dec 16 15:26:42 2024 +0200
+
+    Changed the fact that I was keeping some transactions in User and some in Accounts and now I keep them just in Account.
+
+commit 1a93db1a88e58e363ec880092a2f740ee5dac152
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Thu Dec 12 15:50:41 2024 +0200
+
+    Finally restructured it to a more OOP design than before.
+
+commit cb899a98d76ca31244db61fd0f5564b7b18e5e78
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Wed Dec 11 08:58:41 2024 +0200
+
+    Homework is done. I implemented every command and structured it to a OOP design
+
+commit da73db9028c15db82e795c43db32db414f9cc7d2
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Sat Dec 7 23:02:12 2024 +0200
+
+    Started it again and deleting everything I had to follow the OOP steps created some new classes and implemented a design pattern
+
+commit 517f6ce3dde08281d4731834ede937bb6f072e88
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Mon Dec 2 16:56:39 2024 +0200
+
+    Passed first 4 tests and implemented the first classes

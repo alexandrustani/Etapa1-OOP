@@ -25,9 +25,11 @@ public final class AddAccount {
      * Add account to user
      * @param command to execute
      * @param users to add account
+     * @param timestamp for the respective moment
+     * @param mapper to create transaction
      */
     public static void execute(final CommandInput command, final ArrayList<User> users,
-                                final int timestamp) {
+                                final int timestamp, final ObjectMapper mapper) {
         User neededUser = null;
 
         for (User user : users) {
@@ -43,7 +45,6 @@ public final class AddAccount {
 
         neededUser.addAccount(FactoryOfAccount.createAccount(command));
 
-        ObjectMapper mapper = new ObjectMapper();
         ObjectNode transaction = mapper.createObjectNode();
 
         transaction.put("timestamp", timestamp);

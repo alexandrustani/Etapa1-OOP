@@ -39,10 +39,11 @@ public final class PrintTransactions {
      * @param command - the command to be executed
      * @param users - the list of users
      * @param output - the output array
+     * @param mapper - the object mapper
      */
     public static void execute(final CommandInput command,
-                               final ArrayList<User> users, final ArrayNode output) {
-        ObjectMapper mapper = new ObjectMapper();
+                               final ArrayList<User> users, final ArrayNode output,
+                               final ObjectMapper mapper) {
         ObjectNode commandOutput = mapper.createObjectNode();
 
         commandOutput.put("command", "printTransactions");
