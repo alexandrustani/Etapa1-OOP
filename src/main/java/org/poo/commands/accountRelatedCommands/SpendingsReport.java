@@ -83,9 +83,8 @@ public final class SpendingsReport {
                     && transaction.get("timestamp").asInt() <= command.getEndTimestamp())
                 && transaction.has("commerciant")) {
                 transactions.add(transaction);
-                neededCommerciants.add(((ClassicAccount) neededAccount).
-                                        getACertainCommerciant(transaction.
-                                                                get("commerciant").asText()));
+                neededCommerciants.add(new CommerciantsDetails(transaction.get("commerciant").asText(),
+                                         transaction.get("amount").asDouble()));
             }
         }
 
