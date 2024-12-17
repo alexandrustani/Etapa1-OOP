@@ -1,3 +1,9 @@
+commit 1430af27c24f08861417401d79d79e549213af4e
+Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
+Date:   Tue Dec 17 19:22:06 2024 +0200
+
+    README done
+
 commit 3b7d3c08fa767a2914fbde5350f494916497c29f
 Author: Alexandru <alexandru.stanislav@stud.acs.upb.ro>
 Date:   Mon Dec 16 15:26:42 2024 +0200
